@@ -1,96 +1,54 @@
-"use client";
-import React, { useState } from "react";
+// /app/components/Sidebar.tsx
+'use client'
+import { usePathname } from "next/navigation"; // For app directory router
+import Link from "next/link";
 import {
-  FiHome,
-  FiMenu,
-  FiBook,
-  FiAward,
-  FiMessageSquare,
-  FiUser,
-} from "react-icons/fi";
+  HomeIcon,
+  BookOpenIcon,
+  TrophyIcon,
+  ChatBubbleLeftIcon,
+  UserIcon,
+} from "@heroicons/react/24/solid";
 
-interface SidebarProps {
-  setActiveContent: (content: string) => void; // Prop to update active content in the dashboard
-}
+const Sidebar = () => {
+  const pathname = usePathname(); // Hook to get the current path
 
-const Sidebar: React.FC<SidebarProps> = ({ setActiveContent }) => {
-  const [isExpanded, setIsExpanded] = useState(true); // Control the expansion state of the sidebar
+  const navItems = [
+    { name: "Início", path: "/", icon: HomeIcon },
+    { name: "Unidades", path: "/unidades", icon: BookOpenIcon },
+    { name: "Conquistas", path: "/conquistas", icon: TrophyIcon },
+    { name: "Mensagens", path: "/mensagens", icon: ChatBubbleLeftIcon },
+    { name: "Perfil", path: "/perfil", icon: UserIcon },
+  ];
 
   return (
-    <div
-      className={`h-screen bg-background shadow-md flex flex-col ${
-        isExpanded ? "w-64" : "w-20"
-      } transition-all duration-300`}>
-      {/* Header with toggle button */}
-      <div className="p-6 bg-background text-black flex items-center">
-        <button
-          onClick={() => setIsExpanded(!isExpanded)}
-          className="text-black focus:outline-none">
-          <FiMenu size={24} />
-        </button>
-      </div>
+    <aside className="fixed w-64 h-screen bg-slate-200 text-black p-4">
+      <nav className="flex flex-col space-y-4">
+        {navItems.map((item) => {
+          const isActive = pathname === item.path;
+          const Icon = item.icon;
 
-      {/* Navigation Menu */}
-      <nav className="mt-10 flex-1">
-        <ul className="flex flex-col space-y-4">
-          <li>
-            <button
-              onClick={() => setActiveContent("home")}
-              className="w-full flex items-center p-4 rounded-lg text-grayblue-700 hover:bg-accent_opacity transition-colors duration-300 focus:outline-none">
-              <FiHome
-                size={24}
-                className="mr-3"
+          return (
+            <Link
+              key={item.name}
+              href={item.path}
+              className={`flex items-center space-x-2 p-2 rounded hover:bg-slate-100
+                                ${
+                                  isActive
+                                    ? "bg-teal-600 text-white hover:bg-teal-600 hover:text-white"
+                                    : ""
+                                }`}>
+              <Icon
+                className={`w-5 h-5 ${
+                  isActive ? "text-white" : "text-teal-500"
+                }`}
               />
-              {isExpanded && <span>Início</span>}
-            </button>
-          </li>
-          <li>
-            <button
-              onClick={() => setActiveContent("unidades")}
-              className="w-full flex items-center p-4 rounded-lg text-grayblue-700 hover:bg-accent_opacity transition-colors duration-300 focus:outline-none">
-              <FiBook
-                size={24}
-                className="mr-3"
-              />
-              {isExpanded && <span>Unidades</span>}
-            </button>
-          </li>
-          <li>
-            <button
-              onClick={() => setActiveContent("conquistas")}
-              className="w-full flex items-center p-4 rounded-lg text-grayblue-700 hover:bg-accent_opacity transition-colors duration-300 focus:outline-none">
-              <FiAward
-                size={24}
-                className="mr-3"
-              />
-              {isExpanded && <span>Conquistas</span>}
-            </button>
-          </li>
-          <li>
-            <button
-              onClick={() => setActiveContent("mensagens")}
-              className="w-full flex items-center p-4 rounded-lg text-grayblue-700 hover:bg-accent_opacity transition-colors duration-300 focus:outline-none">
-              <FiMessageSquare
-                size={24}
-                className="mr-3"
-              />
-              {isExpanded && <span>Mensagens</span>}
-            </button>
-          </li>
-          <li>
-            <button
-              onClick={() => setActiveContent("perfil")}
-              className="w-full flex items-center p-4 rounded-lg text-grayblue-700 hover:bg-accent_opacity transition-colors duration-300 focus:outline-none">
-              <FiUser
-                size={24}
-                className="mr-3"
-              />
-              {isExpanded && <span>Perfil</span>}
-            </button>
-          </li>
-        </ul>
+              <span>{item.name}</span>
+            </Link>
+          );
+        })}
       </nav>
-    </div>
+    </aside>
   );
 };
 
