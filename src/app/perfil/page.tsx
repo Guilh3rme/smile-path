@@ -1,3 +1,4 @@
+"use client";
 import { PencilIcon, UserIcon } from "@heroicons/react/24/solid";
 import Image from "next/image";
 import { users_data } from "@/api/users";
