@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 "use client";
 import EmblaCarousel from "@/app/components/Carousel/EmblaCarousel";
 import { EmblaOptionsType } from "embla-carousel";
